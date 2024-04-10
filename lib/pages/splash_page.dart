@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:umdb/pages/dashboard_page.dart';
 import 'package:umdb/pages/home_page.dart';
 import 'package:umdb/pages/login_page.dart';
 
@@ -19,7 +20,7 @@ class _SplashPageState extends State<SplashPage> {
       if (isAuthenticated ?? false){
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HomePage()),);
+          MaterialPageRoute(builder: (context) => const DashboardPage()),);
       }else{
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const LoginPage()));
       }
