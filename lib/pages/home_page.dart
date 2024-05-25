@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:umdb/pages/popular_movies_page.dart';
+import 'package:umdb/pages/top_rated_movies_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -22,7 +23,7 @@ class HomePage extends StatelessWidget {
         body: const TabBarView(
           children: [
             PopularMoviesPage(),
-            Center(child: Text('Coming soon Movies'),),
+            TopRatedMoviesPage(),
           ],
         ),
       ),

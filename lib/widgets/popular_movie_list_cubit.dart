@@ -3,9 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:umdb/cubits/movie_list_ui_state.dart';
 import 'package:umdb/cubits/popular_movie_cubit.dart';
 import 'package:umdb/models/popular_movie_response.dart';
+
+import '../models/popular_movie_hive.dart';
 
 class PopularMovieListCubit extends StatefulWidget {
   const PopularMovieListCubit({super.key});
@@ -16,12 +19,34 @@ class PopularMovieListCubit extends StatefulWidget {
 
 class _PopularMovieListCubitState extends State<PopularMovieListCubit> {
 
+  late Box<PopularMovieHive> _movieBox;
+  late List<PopularMovieHive> _favoriteMovieHiveList;
+
   @override
   void initState() {
     super.initState();
-
     context.read<PopularMovieCubit>().getPopularMovies();
+    _movieBox = Hive.box('popular-movies');
+    fetchFavouriteMovies();
   }
+
+  void _saveMovie(PopularMovieHive movie) {
+    _movieBox.add(movie);
+    fetchFavouriteMovies();
+    print('Favourite list = $_favoriteMovieHiveList');
+    setState(() {});
+  }
+
+  void _deleteMovie(PopularMovieHive movie) {
+    movie.delete();
+    fetchFavouriteMovies();
+    setState(() {});
+  }
+
+  void fetchFavouriteMovies() async {
+    _favoriteMovieHiveList = _movieBox.values.toList();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +67,28 @@ class _PopularMovieListCubitState extends State<PopularMovieListCubit> {
             Success() => ListView.builder(
                 itemCount: state.movieList.length,
                 itemBuilder: ( context, index){
+                  final movie = state.movieList[index];
+                  var isFavourite = _favoriteMovieHiveList.any(
+                          (favMovie) => favMovie.title == movie.title);
+                  late PopularMovieHive? favoriteMovieHive;
+                  if (isFavourite) {
+                    favoriteMovieHive = _favoriteMovieHiveList.firstWhere(
+                            (favMovie) => favMovie.title == movie.title);
+                  }
                   return ListTile(
-                    title: Text(state.movieList[index].title ?? "No title"),
-                    subtitle: Text(state.movieList[index].year ?? "1999"),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(movie.title ?? "No title"),
+                        const Icon(Icons.favorite_border, size: 20,)
+                      ],
+                    ),
+                    subtitle: Text(movie.year ?? "1999"),
+                    onTap: () {
+                      final movieHive = PopularMovieHive(title: movie.title, year: movie.year);
+                      isFavourite ? _deleteMovie(favoriteMovieHive!) : _saveMovie(movieHive);
+                    },
+                    tileColor: isFavourite? Colors.greenAccent : Colors.white,
                   );
                 },
             ),

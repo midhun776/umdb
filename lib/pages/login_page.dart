@@ -58,6 +58,12 @@ class _LoginFormState extends State<LoginForm> {
         ),
         validator: (value){
           if(value != null){
+
+            // REGEX EXPRESSION
+            // final bool emailValid =
+            // RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+            //     .hasMatch(value);
+
           if (value.length > 6){
             return null;
           }
