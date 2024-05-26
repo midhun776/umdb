@@ -1,9 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:umdb/pages/new_popular_page.dart';
 import 'package:umdb/pages/new_top_rated_page.dart';
@@ -99,12 +97,24 @@ class _MovieGridscreenState extends State<MovieGridscreen> {
                       itemCount: 6,
                       itemBuilder: (context, index) {
                         return Card(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(movies[index].title, style: TextStyle(fontWeight: FontWeight.bold)),
-                              Text(movies[index].year),
-                            ],
+                          elevation: 8,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0), // Rounded corners
+                            side: const BorderSide(
+                              color: Color(0xFF29A7B7), // Border color
+                              width: 2.0, // Border width
+                            ),
+                          ),
+                          color: const Color(0xFFE7FFD9),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(movies[index].title, style: TextStyle(fontWeight: FontWeight.bold)),
+                                Text(movies[index].year),
+                              ],
+                            ),
                           ),
                         );
                       },
@@ -156,12 +166,24 @@ class _MovieGridscreenState extends State<MovieGridscreen> {
                       itemCount: 6,
                       itemBuilder: (context, index) {
                         return Card(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(topMovies[index].title, style: TextStyle(fontWeight: FontWeight.bold)),
-                              Text(topMovies[index].year),
-                            ],
+                          elevation: 8,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0), // Rounded corners
+                            side: const BorderSide(
+                              color: Color(0xFFBE4B00), // Border color
+                              width: 2.0, // Border width
+                            ),
+                          ),
+                          color: const Color(0xFFFFF8D9),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(topMovies[index].title, style: TextStyle(fontWeight: FontWeight.bold)),
+                                Text(topMovies[index].year),
+                              ],
+                            ),
                           ),
                         );
                       },
